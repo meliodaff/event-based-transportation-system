@@ -10,13 +10,13 @@ export default function EventCard({ event, index }: any) {
       className="rounded-2xl overflow-hidden cursor-pointer bg-white"
       style={{
         boxShadow: hovered
-          ? `0 12px 40px -4px ${event.accent}28, 0 4px 16px #00000012`
-          : "0 2px 12px #0000000d, 0 1px 3px #00000010",
+          ? "0 8px 24px -4px #0000000f, 0 2px 8px #00000008"
+          : "0 1px 6px #00000008, 0 1px 2px #00000008",
         transform: hovered
-          ? "translateY(-5px) scale(1.015)"
+          ? "translateY(-3px) scale(1.008)"
           : "translateY(0) scale(1)",
         transition: "all 0.3s cubic-bezier(.4,0,.2,1)",
-        border: "1px solid #efefef",
+        border: "1px solid #f5f5f5",
       }}
       onMouseEnter={() => setHovered(true)}
       onMouseLeave={() => setHovered(false)}
@@ -42,16 +42,6 @@ export default function EventCard({ event, index }: any) {
           }}
         />
 
-        {/* Accent bar at top */}
-        <div
-          className="absolute top-0 left-0 right-0 h-1"
-          style={{
-            background: event.accent,
-            opacity: hovered ? 1 : 0.8,
-            transition: "opacity 0.3s",
-          }}
-        />
-
         {/* Badges */}
         <div className="absolute top-3 left-3 right-3 flex justify-between items-center">
           <span
@@ -70,10 +60,8 @@ export default function EventCard({ event, index }: any) {
           <span
             className="text-xs font-semibold px-2.5 py-1 rounded-full"
             style={{
-              background: event.accent,
               color: "#fff",
               letterSpacing: "0.04em",
-              boxShadow: `0 2px 8px ${event.accent}55`,
             }}
           >
             Day {event.event_day}
@@ -88,21 +76,11 @@ export default function EventCard({ event, index }: any) {
           className="text-center text-lg font-bold mb-3"
           style={{
             color: "#18181b",
-            fontFamily: "Georgia, serif",
             letterSpacing: "-0.01em",
           }}
         >
           {event.event_name}
         </h2>
-
-        {/* Accent divider */}
-        <div
-          className="mb-3"
-          style={{
-            height: 1,
-            background: `linear-gradient(to right, transparent, ${event.accent}66, transparent)`,
-          }}
-        />
 
         {/* Meta */}
         <div className="flex justify-between items-start">
