@@ -1,10 +1,10 @@
 "use client";
 import { useState } from "react";
+import Image from "next/image";
 
 export default function EventCard({ event, index }: any) {
   const [hovered, setHovered] = useState(false);
   const seatsUrgent = event.seatsLeft <= 5;
-
   return (
     <div
       className="rounded-2xl overflow-hidden cursor-pointer bg-white"
@@ -23,9 +23,11 @@ export default function EventCard({ event, index }: any) {
     >
       {/* Image */}
       <div className="relative w-full overflow-hidden" style={{ height: 190 }}>
-        <img
+        <Image
           src={event.event_banner}
           alt={event.event_name}
+          width={1000}
+          height={1000}
           className="w-full h-full object-cover"
           style={{
             transform: hovered ? "scale(1.07)" : "scale(1)",

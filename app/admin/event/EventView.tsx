@@ -38,39 +38,30 @@ export default function EventView({
   const handleSubmit = async () => {
     setLoading(true);
 
-    let bannerUrl = "";
+    try {
+      const formData = new FormData();
 
-    if (bannerFile) {
-      const fileName = `${Date.now()}-${bannerFile.name.replace(/\s+/g, "-")}`;
+      // Append all text fields
+      Object.entries(form).forEach(([key, value]) => {
+        formData.append(key, value);
+      });
 
-      const { error: uploadError } = await supabaseClient.storage
-        .from("event-banners")
-        .upload(fileName, bannerFile); // 👈 actual File object, not a string
-
-      if (uploadError) {
-        console.error("Upload failed:", uploadError);
-        setLoading(false);
-        return;
+      // Append the file directly — server handles the upload
+      if (bannerFile) {
+        formData.append("banner", bannerFile);
       }
 
-      const { data: urlData } = supabaseClient.storage
-        .from("event-banners")
-        .getPublicUrl(fileName);
+      await addEventActions(formData);
 
-      bannerUrl = urlData.publicUrl;
+      setShowModal(false);
+      setForm(defaultForm);
+      setBannerFile(null);
+    } catch (err) {
+      console.error("Failed to add event:", err);
+      // set an error state here to show in UI
+    } finally {
+      setLoading(false);
     }
-
-    // Now pass the URL string to the server action
-    await addEventActions({
-      ...form,
-      event_day: Number(form.event_day),
-      event_banner: bannerUrl,
-    });
-
-    setLoading(false);
-    setShowModal(false);
-    setForm(defaultForm);
-    setBannerFile(null);
   };
 
   return (
@@ -93,12 +84,18 @@ export default function EventView({
 
       {/* Render selected view */}
       {view === "card" ? (
-        <div className="grid grid-cols-2 gap-5">
-          {events && events.length > 1
-            ? events.map((event, index) => (
-                <EventCard key={index} event={event} />
-              ))
-            : "No Events Yet"}
+        <div
+          className={`grid ${events && events.length > 0 ? "grid-cols-2" : "grid-cols-1"} gap-5`}
+        >
+          {events && events.length > 0 ? (
+            events.map((event, index) => (
+              <EventCard key={index} event={event} />
+            ))
+          ) : (
+            <p className="text-gray-400 text-sm py-10 text-center">
+              No events yet
+            </p>
+          )}
         </div>
       ) : (
         <EventTable events={events} />
@@ -112,7 +109,10 @@ export default function EventView({
             <div className="flex items-center justify-between mb-6">
               <h2 className="text-lg font-semibold text-gray-800">Add Event</h2>
               <button
-                onClick={() => setShowModal(false)}
+                onClick={() => {
+                  setShowModal(false);
+                  setForm(defaultForm);
+                }}
                 className="text-gray-400 hover:text-gray-600 text-xl leading-none"
               >
                 ✕
@@ -204,7 +204,10 @@ export default function EventView({
             {/* Actions */}
             <div className="flex justify-end gap-2 mt-6">
               <button
-                onClick={() => setShowModal(false)}
+                onClick={() => {
+                  setShowModal(false);
+                  setForm(defaultForm);
+                }}
                 className="px-4 py-2 text-sm text-gray-500 hover:text-gray-700 rounded-lg hover:bg-gray-50 transition-colors"
               >
                 Cancel

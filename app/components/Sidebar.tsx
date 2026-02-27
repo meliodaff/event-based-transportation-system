@@ -1,7 +1,8 @@
 "use client";
+import { url } from "inspector/promises";
 import Link from "next/link";
 import { useState } from "react";
-
+import { usePathname } from "next/navigation";
 const NAV_ITEMS = [
   { label: "Dashboard", icon: "📊", link: "/admin" },
   { label: "Event Manager", icon: "📅", link: "/admin/event" },
@@ -9,19 +10,9 @@ const NAV_ITEMS = [
   { label: "Booking Control", icon: "🎟️", link: "/admin/booking" },
 ];
 
-function StatCard({ label, value }: { label: string; value: string }) {
-  return (
-    <div className="bg-gray-100 rounded-2xl p-5 flex flex-col gap-2 shadow-sm">
-      <p className="text-xs text-gray-500 font-medium leading-tight">{label}</p>
-      <p className="text-4xl font-bold text-gray-800">{value}</p>
-    </div>
-  );
-}
-
 export default function DashboardLayout() {
-  const [active, setActive] = useState("Dashboard");
   const [collapsed, setCollapsed] = useState(false);
-
+  const pathName = usePathname();
   return (
     <div
       className="flex h-screen bg-white overflow-hidden"
@@ -69,12 +60,11 @@ export default function DashboardLayout() {
 
         {/* Nav items */}
         {NAV_ITEMS.map(({ label, icon, link }) => {
-          const isActive = active === label;
+          const isActive = pathName === link;
           return (
             <Link
               href={link}
               key={label}
-              onClick={() => setActive(label)}
               title={collapsed ? label : undefined}
               className="flex items-center rounded-xl font-semibold text-sm transition-all duration-200 cursor-pointer border-0"
               style={{
