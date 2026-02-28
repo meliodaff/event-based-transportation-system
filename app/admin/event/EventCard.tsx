@@ -1,7 +1,7 @@
 "use client";
 import { useState } from "react";
 import Image from "next/image";
-
+import { Events } from "./EventProps";
 export default function EventCard({ event, index }: any) {
   const [hovered, setHovered] = useState(false);
   const seatsUrgent = event.seatsLeft <= 5;
@@ -57,7 +57,7 @@ export default function EventCard({ event, index }: any) {
               border: "1px solid rgba(255,255,255,0.6)",
             }}
           >
-            EVT-00{event.event_id}
+            EVT-{String(event.event_id).padStart(3, "0")}
           </span>
           <span
             className="text-xs font-semibold px-2.5 py-1 rounded-full"

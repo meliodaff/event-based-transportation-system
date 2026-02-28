@@ -12,24 +12,24 @@ export default function TripCard({
   tripStatus,
 }: TripProps) {
   return (
-    <div className="w-[30%] rounded-t-2xl rounded-b-lg shadow-2xl">
+    <div className="w-[30%] rounded-t-2xl rounded-b-lg shadow-lg group hover:shadow-2xl duration-400">
       <div className="shadow-lg rounded-t-2xl w-full h-60 overflow-hidden mb-2 relative">
         {/* for vehicle image */}
         <div
-          className={`w-4 h-4 rounded-full right-5 top-5 ${tripStatus === "OPEN" ? "bg-orange-300" : tripStatus === "FULL" ? "bg-green-300" : tripStatus === "COMPLETED" ? "bg-blue-300" : "bg-gray-300"} absolute`}
+          className={`w-4 h-4 rounded-full right-5 top-5 z-100 ${tripStatus === "OPEN" ? "bg-orange-300" : tripStatus === "FULL" ? "bg-green-300" : tripStatus === "COMPLETED" ? "bg-blue-300" : "bg-gray-300"} absolute`}
         ></div>
         <Image
           src={imageSrc}
           alt={imageAlt}
           width={400}
           height={400}
-          className="w-full"
+          className="w-full group-hover:scale-110 duration-400 transition-transform"
         />
       </div>
       <div className="p-3">
         <div className="flex justify-between text-xs text-gray-500">
           {/* for trip id and day */}
-          <p>TRP - {tripId}</p>
+          <p>TRP-{String(tripId).padStart(3, "0")}</p>
           <p>Day {day}</p>
         </div>
         <h1 className="text-center text-2xl font-bold my-2">
@@ -43,7 +43,10 @@ export default function TripCard({
         <div className="flex justify-between">
           {/* for date and seats left */}
           <p>{date}</p>
-          <p>Seats left: {seatsLeft}</p>
+          <p>
+            Seats left:
+            <span className="font-semibold">{seatsLeft}</span>
+          </p>
         </div>
       </div>
     </div>

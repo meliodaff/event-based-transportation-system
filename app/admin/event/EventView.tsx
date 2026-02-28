@@ -4,6 +4,7 @@ import { useState } from "react";
 import EventCard from "./EventCard";
 import EventTable from "./EventTable";
 import supabaseClient from "@/utils/supabase/client";
+import { Events } from "./EventProps";
 
 const defaultForm = {
   event_name: "",
@@ -18,7 +19,7 @@ export default function EventView({
   events,
   addEventActions,
 }: {
-  events: any[];
+  events: Events[];
   addEventActions: any;
 }) {
   const [view, setView] = useState<"card" | "table">("card");

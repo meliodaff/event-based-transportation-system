@@ -5,7 +5,7 @@ const TripList = async () => {
   const { data, error } = await supabase.from("open_or_full_trips").select("*");
 
   if (error) {
-    console.error("Error fetching trips:", error);
+    alert("Error fetching trips:" + error.message);
     return;
   }
 

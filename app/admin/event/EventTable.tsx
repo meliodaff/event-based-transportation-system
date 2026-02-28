@@ -30,7 +30,7 @@ export default function EventTable({ events }: { events: any[] }) {
                 className="bg-white hover:bg-gray-50 transition-colors"
               >
                 <td className="px-5 py-4 text-gray-400 text-xs font-medium">
-                  EVT-00{event.event_id}
+                  EVT-{String(event.event_id).padStart(3, "0")}
                 </td>
                 <td className="px-5 py-4 font-medium text-gray-800">
                   {event.event_name}
